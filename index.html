@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brain Forge - DSA Learning Platform</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark">
+  <div class="theme-toggle-btn" onclick="toggleTheme()">
+    <span id="theme-icon">☀️</span>
+  </div>
+
+  <main class="container">
+    <header class="hero">
+      <div class="logo">⚔️</div>
+      <h1>Brain Forge</h1>
+      <p class="tagline">Master Data Structures & Algorithms</p>
+    </header>
+
+    <nav class="main-nav">
+      <button class="nav-btn" onclick="openAuth()">
+        <span class="icon">🔐</span> Login / Register
+      </button>
+      <button class="nav-btn" onclick="goPlay()">
+        <span class="icon">🎮</span> Play
+      </button>
+      <button class="nav-btn" onclick="showLeaderboard()">
+        <span class="icon">🏆</span> Leaderboard
+      </button>
+      <button class="nav-btn" onclick="toggleRulesModal()">
+        <span class="icon">📋</span> Rules
+      </button>
+      <button class="nav-btn exit-btn" onclick="exitApp()">
+        <span class="icon">🔴</span> Exit
+      </button>
+    </nav>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <h2>Login / Register</h2>
+        <input type="text" id="username" placeholder="Enter username" maxlength="30">
+        <div class="modal-actions">
+          <button onclick="register()">Register</button>
+          <button onclick="login()">Login</button>
+          <button onclick="closeAuth()">Cancel</button>
+        </div>
+        <p id="auth-message"></p>
+      </div>
+    </div>
+
+    <!-- Rules Modal -->
+    <div id="rules-modal" class="modal" style="display:none;">
+      <div class="modal-content rules-content">
+        <h2>📋 Game Rules</h2>
+        <div class="rules-list">
+          <div class="rule-item">
+            <strong>🎯 Three Levels:</strong>
+            <p>Level 1 & 2 have 10 MCQ questions each. Level 3 features LeetCode-style coding challenges.</p>
+          </div>
+          <div class="rule-item">
+            <strong>⭐ Scoring System:</strong>
+            <p>Each question is worth 1 mark. Total 10 marks per level.</p>
+          </div>
+          <div class="rule-item">
+            <strong>🔓 Unlock Requirements:</strong>
+            <p>Score ≥ 7 marks to unlock the next level. Score < 7? You must retry the same level.</p>
+          </div>
+          <div class="rule-item">
+            <strong>🧠 Adaptive Difficulty:</strong>
+            <p>Questions adapt based on your performance. Higher scores = harder questions next time!</p>
+          </div>
+          <div class="rule-item">
+            <strong>💻 Level 3 Special:</strong>
+            <p>Choose from multiple LeetCode problems to solve and showcase your coding skills.</p>
+          </div>
+          <div class="rule-item">
+            <strong>🏆 Leaderboard:</strong>
+            <p>Compete with others! Your total score determines your rank.</p>
+          </div>
+        </div>
+        <button class="close-btn" onclick="toggleRulesModal()">Close</button>
+      </div>
+    </div>
+
+    <!-- Leaderboard Modal -->
+    <div id="leaderboard-modal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <h2>🏆 Leaderboard</h2>
+        <div id="leaderboard-list" class="leaderboard-list">
+          <p>Loading...</p>
+        </div>
+        <button onclick="closeLeaderboard()">Close</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Fixed Rules Button (Bottom Left) -->
+  <button class="fixed-rules-btn" onclick="toggleRulesModal()">
+    📋 RULES
+  </button>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

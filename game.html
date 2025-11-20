@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brain Forge - Gameplay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark">
+  <div class="theme-toggle-btn" onclick="toggleTheme()">
+    <span id="theme-icon">☀️</span>
+  </div>
+
+  <main class="container">
+    <header class="game-header">
+      <h1>🧠 Brain Forge Gameplay</h1>
+      <button class="back-btn" onclick="backHome()">⬅️ Back to Home</button>
+    </header>
+
+    <div class="status-panel">
+      <div class="status-item">
+        <strong>Player:</strong> <span id="player-name">—</span>
+      </div>
+      <div class="status-item">
+        <strong>Current Level:</strong> <span id="current-level">1</span>
+      </div>
+      <div class="status-item">
+        <strong>Score:</strong> <span id="current-score">0</span>/10
+      </div>
+      <div class="status-item">
+        <strong>Total Score:</strong> <span id="total-score">0</span>
+      </div>
+    </div>
+
+    <div class="game-controls">
+      <button id="start-btn" onclick="startLevel()">Start Level</button>
+      <button id="finish-btn" onclick="finishLevel()" disabled>Finish Level</button>
+    </div>
+
+    <div id="game-area" class="game-area"></div>
+
+    <div id="level3-area" class="level3-area" style="display:none;">
+      <h2>Level 3 - Choose Your Challenge</h2>
+      <p>Select a LeetCode problem to solve:</p>
+      <div id="level3-list"></div>
+
+      <div class="game-controls" style="margin-top: 20px;">
+        <button id="level3-done-btn" onclick="completeLevel3()">✔️ I'm Done! (Give me 5 points)</button>
+      </div>
+      </div>
+
+    <div id="message-box" class="message-box" style="display:none;"></div>
+  </main>
+
+  <button class="fixed-rules-btn" onclick="toggleRulesModal()">
+    📋 RULES
+  </button>
+
+  <div id="rules-modal" class="modal" style="display:none;">
+    <div class="modal-content rules-content">
+      <h2>📋 Game Rules</h2>
+      <div class="rules-list">
+        <div class="rule-item">
+          <strong>🎯 Three Levels:</strong>
+          <p>Level 1 & 2 have 10 MCQ questions each. Level 3 features LeetCode-style coding challenges.</p>
+        </div>
+        <div class="rule-item">
+          <strong>⭐ Scoring System:</strong>
+          <p>Each question is worth 1 mark. Total 10 marks per level.</p>
+        </div>
+        <div class="rule-item">
+          <strong>🔓 Unlock Requirements:</strong>
+          <p>Score ≥ 7 marks to unlock the next level. Score < 7? You must retry the same level.</p>
+        </div>
+        <div class="rule-item">
+          <strong>🧠 Adaptive Difficulty:</strong>
+          <p>Questions adapt based on your performance. Higher scores = harder questions next time!</p>
+        </div>
+        <div class="rule-item">
+          <strong>💻 Level 3 Special:</strong>
+          <p>Choose from multiple LeetCode problems to solve and showcase your coding skills.</p>
+        </div>
+      </div>
+      <button class="close-btn" onclick="toggleRulesModal()">Close</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+  <script>
+    // Initialize game page
+    (function() {
+      const user = localStorage.getItem('bf_user');
+      if (!user) {
+        showToast('Please login first');
+        setTimeout(() => window.location.href = '/index.html', 1000);
+        return;
+      }
+      document.getElementById('player-name').textContent = user;
+      
+      // Load player stats
+      fetch('/api/login', {
+        method: 'POST',
+        body: 'name=' + encodeURIComponent(user)
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.status === 'ok') {
+          window.currentLevel = data.current_level;
+          document.getElementById('current-level').textContent = data.current_level;
+          document.getElementById('total-score').textContent = data.total_score;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
